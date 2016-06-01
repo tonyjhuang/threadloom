@@ -1,0 +1,4 @@
+class ReplySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reply
+        fields = ('created', 'text')
