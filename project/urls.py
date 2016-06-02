@@ -26,13 +26,8 @@ router.register(r'threads', views.ThreadViewSet)
 router.register(r'replies', views.ReplyViewSet)
 router.register(r'users', views.UserViewSet)
 
-register_user = views.CreateUserViewSet.as_view({
-    'post': 'create'
-})
-
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^users/', register_user),
     url(r'^', include(router.urls)),
 ]
 

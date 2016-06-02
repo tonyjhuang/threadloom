@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from forum.models import *
-from forum.permissions import IsOwnerOrReadOnly
+from forum.permissions import *
 from forum.serializers import *
 from rest_framework import filters, generics, mixins, permissions, viewsets
 from rest_framework.decorators import detail_route
@@ -52,11 +52,9 @@ class ReplyViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-class CreateUserViewSet(mixins.CreateModelMixin,
-                        viewsets.GenericViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    permission_classes = (NotAuthenticatedCreateOrReadOnly,
+                          IsSameUserOrReadOnly,)
